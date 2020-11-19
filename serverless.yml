@@ -1,3 +1,4 @@
+
 service: cors-proxy
 
 plugins:
@@ -6,9 +7,9 @@ plugins:
 provider:
   name: aws
   runtime: nodejs12.x
-  timeout: 60
+  timeout: 30
   stage: dev
-  region: eu-central-1
+  region: us-east-1
   environment:
     foo: 123
 
@@ -20,7 +21,18 @@ functions:
       - http:
           path: ''
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - cb-access-key
+              - cb-access-sign
+              - cb-access-timestamp
+              - cb-access-passphrase
+              - x-mbx-apikey
+              - Access-Control-Allow-Headers
+              - Access-Control-Allow-Origin
+              - Access-Control-Allow-Credentials
       - http:
           path: ''
           method: post

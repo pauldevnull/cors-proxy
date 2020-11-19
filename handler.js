@@ -36,7 +36,7 @@ module.exports.corsProxy = (event, context, callback) => {
             method: event.httpMethod,
             timeout: 20000,
             json: event.httpMethod === 'POST' ? JSON.parse(originalRequestBody) : null,
-            headers,
+            headers: { ...headers, 'Content-Type': 'application/json', 'Accept-Encoding': '*' },
         }, (err, originalResponse, body) => {
             if (err) {
                 console.log(`Got error`, err);
@@ -56,6 +56,7 @@ module.exports.corsProxy = (event, context, callback) => {
                 headers: {
                     "Access-Control-Allow-Origin" : "*", // Required for CORS support to work
                     "Access-Control-Allow-Credentials" : true, // Required for cookies, authorization headers with HTTPS
+                    'Access-Control-Allow-Headers': '*',
                     "content-type": originalResponse.headers['content-type']
                 },
                 body: proxyBody
