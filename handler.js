@@ -31,8 +31,17 @@ module.exports.corsProxy = (event, context, callback) => {
 
     return new Promise((resolve, reject) => {
         let originalRequestBody = event.body;
+        let requestUrl = params.url;
+
+        // TODO: clean this up
+        for (const param of Object.keys(params)) {
+            if (param !== 'url') {
+                requestUrl += requestUrl.includes('?') ? ('&' + param + '=' + params[param]) : (':' + param + '=' + params[param]);
+            }
+        }
+
         request({
-            url: params.url,
+            url: requestUrl,
             method: event.httpMethod,
             timeout: 20000,
             json: event.httpMethod === 'POST' ? JSON.parse(originalRequestBody) : null,
