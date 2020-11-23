@@ -22,7 +22,9 @@ functions:
           path: ''
           method: get
           cors:
+            enabled: true
             origin: '*'
+            methods: 'GET'
             headers:
               - Content-Type
               - cb-access-key
