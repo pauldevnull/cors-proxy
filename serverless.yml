@@ -12,6 +12,8 @@ provider:
   region: us-east-1
   environment:
     foo: 123
+  apiGateway:
+    shouldStartNameWithService: true
 
 functions:
   lambda:
@@ -22,7 +24,6 @@ functions:
           path: ''
           method: get
           cors:
-            enabled: true
             origin: '*'
             methods: 'GET'
             headers:
